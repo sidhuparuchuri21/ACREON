@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACREON - Tokenized Real Estate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    body { scroll-behavior: smooth; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .carousel-button { background-color: rgba(255,255,255,0.9); border-radius: 9999px; padding: 0.5rem; cursor: pointer; transition: opacity 0.3s; }
+    .carousel-button:hover { opacity: 0.7; }
+    .floating-shape { position: absolute; border-radius: 50%; opacity: 0.1; z-index: 0; }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .ticker { display: flex; overflow: hidden; white-space: nowrap; }
+    .ticker-item { display: inline-block; padding: 0 2rem; animation: ticker 15s linear infinite; }
+    @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased relative overflow-x-hidden">
+
+  <!-- Floating shapes -->
+  <div class="floating-shape w-40 h-40 bg-emerald-400 top-10 left-10"></div>
+  <div class="floating-shape w-60 h-60 bg-teal-400 bottom-20 right-20"></div>
+
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 flex items-center justify-center text-white font-bold">A</div>
+      <div>
+        <div class="text-lg font-extrabold">ACREON</div>
+        <div class="text-xs text-slate-500">Tokenized real estate, made simple</div>
+      </div>
+    </div>
+    <nav class="hidden md:flex gap-6 items-center text-sm">
+      <a href="#how" class="hover:text-slate-700 transition">How it works</a>
+      <a href="#features" class="hover:text-slate-700 transition">Features</a>
+      <a href="#marketplace" class="hover:text-slate-700 transition">Marketplace</a>
+      <a href="#signup" class="px-4 py-2 rounded-md bg-emerald-600 text-white hover:opacity-95 transition">Get Early Access</a>
+    </nav>
+  </header>
+
+  <!-- Token Price Ticker -->
+  <section class="bg-white py-2 shadow">
+    <div class="max-w-6xl mx-auto px-6 ticker">
+      <div class="ticker-item">Downtown Apartments: $1.00/token +2%</div>
+      <div class="ticker-item">Seaside Villas: $5.00/token +1.5%</div>
+      <div class="ticker-item">Downtown Lofts: $10.00/token +0.8%</div>
+      <div class="ticker-item">Lakeview Condos: $2.50/token +1.2%</div>
+    </div>
+  </section>
+
+  <!-- Hero, Features, Carousel, Marketplace, Signup sections remain unchanged... -->
+
+  <script>
+    feather.replace();
+
+    // Carousel
+    const carousel = document.getElementById('carousel');
+    const leftBtn = document.getElementById('carousel-left');
+    const rightBtn = document.getElementById('carousel-right');
+    const scrollAmount = 320;
+    leftBtn.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+    rightBtn.addEventListener('click', () => carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+
+    // Fade-in on scroll
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+  </script>
+
+</body>
+</html>
